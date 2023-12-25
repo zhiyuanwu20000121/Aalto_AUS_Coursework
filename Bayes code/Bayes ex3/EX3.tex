@@ -1,0 +1,1108 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Assignment 3},
+  pdfauthor={anonymous},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Assignment 3}
+\author{anonymous}
+\date{}
+
+\begin{document}
+\maketitle
+
+\hypertarget{general-information}{%
+\section{General information}\label{general-information}}
+
+\hypertarget{setup}{%
+\subsection{Setup}\label{setup}}
+
+\emph{This block will only be visible in your HTML output, but will be
+hidden when rendering to PDF with quarto for the submission.}
+\textbf{Make sure that this does not get displayed in the PDF!}
+
+This is the template for \href{assignment3.html}{assignment 3}. You can
+download the qmd-files
+(\href{https://avehtari.github.io/BDA_course_Aalto/assignments/template3.qmd}{full},
+\href{https://avehtari.github.io/BDA_course_Aalto/assignments/simple_template3.qmd}{simple})
+or copy the code from this rendered document after clicking on
+\texttt{\textless{}/\textgreater{}\ Code} in the top right corner.
+
+\textbf{Please replace the instructions in this template by your own
+text, explaining what you are doing in each exercise.}
+
+The following will set-up
+\href{https://github.com/MansMeg/markmyassignment}{\texttt{markmyassignment}}
+to check your functions at the end of the notebook:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(markmyassignment))\{}
+    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"markmyassignment"}\NormalTok{)}
+    \FunctionTok{library}\NormalTok{(markmyassignment)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: markmyassignment
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{assignment\_path }\OtherTok{=} \FunctionTok{paste}\NormalTok{(}\StringTok{"https://github.com/avehtari/BDA\_course\_Aalto/"}\NormalTok{,}
+\StringTok{"blob/master/assignments/tests/assignment3.yml"}\NormalTok{, }\AttributeTok{sep=}\StringTok{""}\NormalTok{)}
+\FunctionTok{set\_assignment}\NormalTok{(assignment\_path)    }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Assignment set:
+## assignment3: Bayesian Data Analysis: Assignment 3
+## The assignment contain the following (6) tasks:
+## - mu_point_est
+## - mu_interval
+## - mu_pred_interval
+## - mu_pred_point_est
+## - posterior_odds_ratio_point_est
+## - posterior_odds_ratio_interval
+\end{verbatim}
+
+The following installs and loads the \texttt{aaltobda} package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(aaltobda))\{}
+    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"remotes"}\NormalTok{)}
+\NormalTok{    remotes}\SpecialCharTok{::}\FunctionTok{install\_github}\NormalTok{(}\StringTok{"avehtari/BDA\_course\_Aalto"}\NormalTok{, }\AttributeTok{subdir =} \StringTok{"rpackage"}\NormalTok{, }\AttributeTok{upgrade=}\StringTok{"never"}\NormalTok{)}
+    \FunctionTok{library}\NormalTok{(aaltobda)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: aaltobda
+\end{verbatim}
+
+The following installs and loads the
+\href{https://github.com/stefano-meschiari/latex2exp}{\texttt{latex2exp}
+package}, which allows us to use LaTeX in plots:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(latex2exp))\{}
+    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"latex2exp"}\NormalTok{)}
+    \FunctionTok{library}\NormalTok{(latex2exp)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: latex2exp
+\end{verbatim}
+
+\hypertarget{showcase-setting-up-advanced-packages-posterior-and-ggdist}{%
+\subsection{\texorpdfstring{Showcase: Setting up advanced packages
+(\texttt{posterior} and
+\texttt{ggdist})}{Showcase: Setting up advanced packages (posterior and ggdist)}}\label{showcase-setting-up-advanced-packages-posterior-and-ggdist}}
+
+\emph{This block will only be visible in your HTML output, but will be
+hidden when rendering to PDF with quarto for the submission.}
+\textbf{Make sure that this does not get displayed in the PDF!}
+
+\emph{This block showcases advanced tools, which you will be allowed and
+expected to use after this assignment.} \textbf{For now, you should
+solve the assignment without the tools showcased herein.}
+
+The following installs and loads the
+\href{https://mc-stan.org/posterior/index.html}{\texttt{posterior}
+package}, which allows us to use its
+\href{https://mc-stan.org/posterior/articles/rvar.html}{\texttt{rvar}
+Random Variable Datatype}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(posterior))\{}
+    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"posterior"}\NormalTok{)}
+    \FunctionTok{library}\NormalTok{(posterior)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: posterior
+\end{verbatim}
+
+\begin{verbatim}
+## This is posterior version 1.4.1
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'posterior'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:aaltobda':
+## 
+##     mcse_quantile
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     mad, sd, var
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     %in%, match
+\end{verbatim}
+
+The following installs and loads the
+\href{https://mjskay.github.io/ggdist/}{\texttt{ggdist} package} for
+advanced plotting functions:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(ggplot2))\{}
+    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"ggplot2"}\NormalTok{)}
+    \FunctionTok{library}\NormalTok{(ggplot2)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ggplot2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{ggplot2}\SpecialCharTok{::}\FunctionTok{theme\_set}\NormalTok{(}\FunctionTok{theme\_minimal}\NormalTok{(}\AttributeTok{base\_size =} \DecValTok{14}\NormalTok{))}
+\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(ggdist))\{}
+    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"ggdist"}\NormalTok{)}
+    \FunctionTok{library}\NormalTok{(ggdist)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: ggdist
+\end{verbatim}
+
+\emph{This block showcases advanced tools, which you will be allowed and
+expected to use after this assignment.} \textbf{For now, you should
+solve the assignment without the tools showcased herein.}
+
+\hypertarget{inference-for-normal-mean-and-deviation-3-points}{%
+\section{Inference for normal mean and deviation (3
+points)}\label{inference-for-normal-mean-and-deviation-3-points}}
+
+Loading the library and the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(}\StringTok{"windshieldy1"}\NormalTok{)}
+\CommentTok{\# The data are now stored in the variable \textasciigrave{}windshieldy1\textasciigrave{}.}
+\CommentTok{\# The below displays the data:}
+\NormalTok{windshieldy1}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 13.357 14.928 14.896 15.297 14.820 12.067 14.824 13.865 17.447
+\end{verbatim}
+
+The below data is \textbf{only for the tests}, you need to change to the
+full data \texttt{windshieldy1} when reporting your results.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{windshieldy\_test }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FloatTok{13.357}\NormalTok{, }\FloatTok{14.928}\NormalTok{, }\FloatTok{14.896}\NormalTok{, }\FloatTok{14.820}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{a}{%
+\subsection{(a)}\label{a}}
+
+1.Likelihood:
+
+Given Observations y1,y2,y3\ldots.yn which following the mean μ and the
+standard deviation is σ Normal distribution. The likelihood function for
+single observation value yi is
+that:\(f(y_i | \mu, \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left( -\frac{(y_i - \mu)^2}{2\sigma^2} \right)\).
+
+We have a number of observed hardness values yi, so we can formulate the
+joint likelihood, because for n independent observations, joint
+likelihood is the product of individual likelihood which should
+be:\(L(\mu, \sigma | \mathbf{y}) = \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi\sigma^2}} \exp \left( -\frac{(y_i - \mu)^2}{2\sigma^2} \right)\)
+
+2.The prior distribution for μ and σ given is:\\
+\(p(\mu, \sigma) \propto \sigma^{-1}\)
+
+3.Resulting Posterior:\\
+We can using Bayes' theorem, the posterior distribution is proportional
+to the product of likelihood and prior:\\
+\(p(\mu, \sigma | \mathbf{y}) \propto L(\mu, \sigma | \mathbf{y}) \times p(\mu, \sigma)\)
+Then we can formulate the Resulting Posterior:
+\(p(\mu, \sigma | \mathbf{y}) \propto \sigma^{-n-1} \exp \left( -\frac{\sum_{i=1}^{n} (y_i - \mu)^2}{2\sigma^2} \right)\)
+
+\hypertarget{b}{%
+\subsection{(b)}\label{b}}
+
+\textbf{Keep the below name and format for the functions to work with
+\texttt{markmyassignment}:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Useful functions: mean(), length(), sqrt(), sum()}
+\CommentTok{\# and qtnew(), dtnew() (from aaltobda)}
+
+\NormalTok{mu\_point\_est }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data) \{}
+    \CommentTok{\# Do computation here, and return as below.}
+    \CommentTok{\# This is the correct return value for the test data provided above.}
+\NormalTok{  point\_estimate }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data)}
+    \CommentTok{\#14.5}
+    \FunctionTok{return}\NormalTok{(point\_estimate)}
+\NormalTok{\}}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{mu\_point\_est}\NormalTok{(windshieldy1))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14.61122
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu\_interval }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{prob =} \FloatTok{0.95}\NormalTok{) \{}
+    \CommentTok{\# Do computation here, and return as below.}
+    \CommentTok{\# This is the correct return value for the test data provided above.}
+\NormalTok{    n}\OtherTok{\textless{}{-}}\FunctionTok{length}\NormalTok{(data)}
+\NormalTok{    s }\OtherTok{\textless{}{-}} \FunctionTok{sd}\NormalTok{(data)}
+\NormalTok{    point\_estimate }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data)}
+\NormalTok{    lower\_bound }\OtherTok{\textless{}{-}}\NormalTok{ point\_estimate}\SpecialCharTok{+}\FunctionTok{qt}\NormalTok{((}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{prob)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,}\AttributeTok{df=}\NormalTok{n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(s}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(n))}
+\NormalTok{    upper\_bound }\OtherTok{\textless{}{-}}\NormalTok{ point\_estimate}\SpecialCharTok{+}\FunctionTok{qt}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{prob)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\AttributeTok{df=}\NormalTok{n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\NormalTok{(s}\SpecialCharTok{/}\FunctionTok{sqrt}\NormalTok{(n))}
+\NormalTok{    credible }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(lower\_bound, upper\_bound)}
+    \FunctionTok{return}\NormalTok{(credible)}
+\NormalTok{\}}
+\FunctionTok{print}\NormalTok{(}\FunctionTok{mu\_interval}\NormalTok{(windshieldy1,}\AttributeTok{prob=}\FloatTok{0.95}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 13.47808 15.74436
+\end{verbatim}
+
+The point estimate is 14.61122.This means that based on our data, the
+best estimate or average hardness μ The central value of is 14.61122.
+95\% confidence interval:The results are: 2.5\%=13.478, 97.5\%=15.744
+This means that based on the data we observe, μ There is a 95\%
+probability that the true value of falls between 13.478 and 15.744. In
+other words, we are interested in μ The uncertainty range of is within
+this range. When we say we have 95\% confidence, it means that if we
+repeat the experiment multiple times and calculate the 95\% confidence
+interval, then approximately 95\% of the interval will contain the true
+μ Value. Based on the provided data, we believe that the average
+hardness of the window glass is most likely 14.61122. In addition, we
+believe there is a 95\% probability that this true average hardness
+value is between 13.478 and 15.744.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu\_pdf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, x)\{}
+    \CommentTok{\# Compute necessary parameters here.}
+\NormalTok{    n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(data)}
+\NormalTok{    sample\_variance }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(data)}
+\NormalTok{    sample\_mean }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data)}
+    \CommentTok{\# These are the correct parameters for \textasciigrave{}windshieldy\_test\textasciigrave{} }
+    \CommentTok{\# with the provided uninformative prior.}
+\NormalTok{    df }\OtherTok{=}\NormalTok{ n}\DecValTok{{-}1}
+\NormalTok{    location }\OtherTok{=}\NormalTok{ sample\_mean}
+\NormalTok{    scale }\OtherTok{=} \FunctionTok{sqrt}\NormalTok{(sample\_variance }\SpecialCharTok{/}\NormalTok{ n)}
+    \CommentTok{\# Use the computed parameters as below to compute the PDF:}
+     
+    \FunctionTok{dtnew}\NormalTok{(x, df, location, scale)}
+\NormalTok{\}}
+
+\NormalTok{x\_interval }\OtherTok{=} \FunctionTok{mu\_interval}\NormalTok{(windshieldy1, .}\DecValTok{999}\NormalTok{)}
+\NormalTok{lower\_x }\OtherTok{=}\NormalTok{ x\_interval[}\DecValTok{1}\NormalTok{]}
+\NormalTok{upper\_x }\OtherTok{=}\NormalTok{ x\_interval[}\DecValTok{2}\NormalTok{]}
+\NormalTok{x }\OtherTok{=} \FunctionTok{seq}\NormalTok{(lower\_x, upper\_x, }\AttributeTok{length.out=}\DecValTok{1000}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(}
+\NormalTok{    x, }\FunctionTok{mu\_pdf}\NormalTok{(windshieldy1, x), }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }
+    \AttributeTok{xlab=}\FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}(average hardness $\textbackslash{}mu$)\textquotesingle{}}\NormalTok{), }
+    \AttributeTok{ylab=}\FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}(PDF of the posterior $p(\textbackslash{}mu|y)$)\textquotesingle{}}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EX3_files/figure-latex/fig-2b-density-1.pdf} From the
+graph, we can see that the peak of the posterior distribution is at the
+average hardness μ which is bout 14.6. The shape and width of the
+distribution reflect our understanding of μ uncertainty: The wider the
+distribution, the greater the uncertainty, the narrower the
+distribution, the smaller the uncertainty.
+
+\hypertarget{c}{%
+\subsection{(c)}\label{c}}
+
+\textbf{Keep the below name and format for the functions to work with
+\texttt{markmyassignment}:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Useful functions: mean(), length(), sqrt(), sum()}
+\CommentTok{\# and qtnew(), dtnew() (from aaltobda)}
+
+\NormalTok{mu\_pred\_point\_est }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data) \{}
+    \CommentTok{\# Do computation here, and return as below.}
+    \CommentTok{\# This is the correct return value for the test data provided above.}
+    \CommentTok{\#14.5}
+\NormalTok{    pointEstimate }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data)}
+    \FunctionTok{return}\NormalTok{(pointEstimate)}
+\NormalTok{\}}
+\FunctionTok{mu\_pred\_point\_est}\NormalTok{(windshieldy1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 14.61122
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu\_pred\_interval }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, }\AttributeTok{prob =} \FloatTok{0.95}\NormalTok{) \{}
+    \CommentTok{\# Do computation here, and return as below.}
+    \CommentTok{\# This is the correct return value for the test data provided above.}
+    \CommentTok{\#c(11.8, 17.2)}
+\NormalTok{    n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(data)}
+\NormalTok{    s2 }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(data)}
+\NormalTok{    y\_bar }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data)}
+\NormalTok{    predictive\_variance }\OtherTok{\textless{}{-}}\NormalTok{ s2 }\SpecialCharTok{+}\NormalTok{ s2}\SpecialCharTok{/}\NormalTok{n}
+\NormalTok{    lower\_bound }\OtherTok{\textless{}{-}}\NormalTok{ y\_bar }\SpecialCharTok{+} \FunctionTok{qt}\NormalTok{((}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{prob)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{,}\AttributeTok{df=}\NormalTok{n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(predictive\_variance)}
+\NormalTok{    upper\_bound }\OtherTok{\textless{}{-}}\NormalTok{ y\_bar }\SpecialCharTok{+} \FunctionTok{qt}\NormalTok{(prob}\SpecialCharTok{+}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{prob)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{, }\AttributeTok{df=}\NormalTok{n}\DecValTok{{-}1}\NormalTok{)}\SpecialCharTok{*}\FunctionTok{sqrt}\NormalTok{(predictive\_variance)}
+\NormalTok{    interval}\OtherTok{\textless{}{-}}\FunctionTok{c}\NormalTok{(lower\_bound, upper\_bound)}
+    \FunctionTok{return}\NormalTok{(interval)}
+\NormalTok{\}}
+\FunctionTok{mu\_pred\_interval}\NormalTok{(windshieldy1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 11.02792 18.19453
+\end{verbatim}
+
+The point estimate provides a single most probable value for the
+hardness of the next windshield which is about 14.611. 95\% confidence
+interval:The results are: 2.5\%=11.02792, 97.5\%=18.19453.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu\_pred\_pdf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, x)\{}
+    \CommentTok{\# Compute necessary parameters here.}
+    \CommentTok{\# These are the correct parameters for \textasciigrave{}windshieldy\_test\textasciigrave{} }
+    \CommentTok{\# with the provided uninformative prior.}
+\NormalTok{    s2 }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(data)}
+\NormalTok{    n }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(data)}
+\NormalTok{    sample\_mean }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data)}
+\NormalTok{    predictive\_variance }\OtherTok{\textless{}{-}}\NormalTok{ s2 }\SpecialCharTok{+}\NormalTok{ s2}\SpecialCharTok{/}\NormalTok{n}
+\NormalTok{    df }\OtherTok{=}\NormalTok{ n}
+\NormalTok{    location }\OtherTok{=}\NormalTok{ sample\_mean}
+\NormalTok{    scale }\OtherTok{=} \FunctionTok{sqrt}\NormalTok{(predictive\_variance)}
+    \CommentTok{\# Use the computed parameters as below to compute the PDF:}
+     
+    \FunctionTok{dtnew}\NormalTok{(x, df, location, scale)}
+\NormalTok{\}}
+
+\NormalTok{x\_interval }\OtherTok{=} \FunctionTok{mu\_pred\_interval}\NormalTok{(windshieldy1, .}\DecValTok{999}\NormalTok{)}
+\NormalTok{lower\_x }\OtherTok{=}\NormalTok{ x\_interval[}\DecValTok{1}\NormalTok{]}
+\NormalTok{upper\_x }\OtherTok{=}\NormalTok{ x\_interval[}\DecValTok{2}\NormalTok{]}
+\NormalTok{x }\OtherTok{=} \FunctionTok{seq}\NormalTok{(lower\_x, upper\_x, }\AttributeTok{length.out=}\DecValTok{1000}\NormalTok{)}
+\FunctionTok{plot}\NormalTok{(}
+\NormalTok{    x, }\FunctionTok{mu\_pred\_pdf}\NormalTok{(windshieldy1, x), }\AttributeTok{type=}\StringTok{"l"}\NormalTok{, }
+    \AttributeTok{xlab=}\FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}(new hardness observation $}\SpecialCharTok{\textbackslash{}t}\StringTok{ilde\{y\}$)\textquotesingle{}}\NormalTok{), }
+    \AttributeTok{ylab=}\FunctionTok{TeX}\NormalTok{(r}\StringTok{\textquotesingle{}(PDF of the posterior predictive $p(}\SpecialCharTok{\textbackslash{}t}\StringTok{ilde\{y\}|y)$)\textquotesingle{}}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EX3_files/figure-latex/fig-2c-density-1.pdf} This chart
+is a representation of the probability density function of the posterior
+prediction distribution. The x-axis represents new hardness observation
+y, ranging from 11 to 18. This indicates that new hardness observations
+conducted in experiments or studies fall within this range. The y-axis
+represents the ``PDF of posterior prediction'', ranging from 0 to 0.25.
+This represents the probability density of these new hardness
+observations. The peak value of the curve is approximately 14.6 on the
+x-axis and 0.24 on the y-axis. This indicates that the most likely new
+hardness observation is approximately 15, corresponding to a probability
+density of approximately 0.24. Overall, this chart shows the
+distribution of new hardness observations and their probabilities. The
+most likely new hardness observation is about 14.6, with a probability
+density of about 0.24.
+
+\hypertarget{inference-for-the-difference-between-proportions-3-points}{%
+\section{Inference for the difference between proportions (3
+points)}\label{inference-for-the-difference-between-proportions-3-points}}
+
+\hypertarget{a-1}{%
+\subsection{(a)}\label{a-1}}
+
+1.Likelihood:
+
+For the control group:\\
+\(L(p_0) = \binom{674}{39} p_0^{39} (1-p_0)^{635}\)
+
+For the treatment group:
+
+\(L(p_1) = \binom{680}{22} p_1^{22} (1-p_1)^{658}\) Where
+\(\binom{n}{k}\) represents the binomial coefficient,which means n
+choose k.
+
+2.The prior: for a noninformative prior using the beta distribution:
+\(p_0 \sim \text{Beta}(1,1)\)
+
+\(p_1 \sim \text{Beta}(1,1)\)
+
+The probability density function for a Beta distribution is given by:
+\(f(p; \alpha, \beta) = \frac{p^{\alpha-1}(1-p)^{\beta-1}}{B(\alpha,\beta)}\)
+
+Where \(B(\alpha,\beta)\) is the Beta function, and it acts as a
+normalization constant. For our noninformative priors:
+
+\(f(p_0) = p_0^0(1-p_0)^0 = 1\)
+
+\(f(p_1) = p_1^0(1-p_1)^0 = 1\)\\
+3.The resulting posterior: We can use the Bayes' theorem and the fact
+that the beta distribution is a conjugate prior for the binomial
+likelihood, the posterior distributions are also beta distributions. For
+\(p_0\): \(p(p_0|data) \propto L(p_0) \times f(p_0)\)
+
+\(\text{Posterior for } p_0 \sim \text{Beta}(1 + 39, 1 + 635) = \text{Beta}(40,636)\)
+
+For \(p_1\): \(p(p_1|data) \propto L(p_1) \times f(p_1)\)
+
+\(\text{Posterior for } p_1 \sim \text{Beta}(1 + 22, 1 + 658) = \text{Beta}(23,659)\)
+
+\hypertarget{b-1}{%
+\subsection{(b)}\label{b-1}}
+
+This means that the probability of events occurring in the group we are
+interested in is 57.1\% higher than that in the control group. In other
+words, the likelihood of events occurring in the group we are concerned
+about is relatively low. Meanwhile, the 95\% confidence interval tells
+us that there is a 95\% chance that the true value of OR will fall
+between 0.3221829 and 0.91209276.
+
+The below data is \textbf{only for the tests}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{4711}\NormalTok{)}
+\NormalTok{ndraws }\OtherTok{=} \DecValTok{1000}
+\CommentTok{\#p0 = rbeta(ndraws, 5, 95)}
+\CommentTok{\#p1 = rbeta(ndraws, 10, 90)}
+\NormalTok{p0 }\OtherTok{=} \FunctionTok{rbeta}\NormalTok{(ndraws, }\DecValTok{40}\NormalTok{, }\DecValTok{636}\NormalTok{)}
+\NormalTok{p1 }\OtherTok{=} \FunctionTok{rbeta}\NormalTok{(ndraws, }\DecValTok{23}\NormalTok{, }\DecValTok{659}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\textbf{Keep the below name and format for the functions to work with
+\texttt{markmyassignment}:}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Useful function: mean(), quantile()}
+
+\NormalTok{posterior\_odds\_ratio\_point\_est }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(p0, p1) \{}
+    \CommentTok{\# Do computation here, and return as below.}
+    \CommentTok{\# This is the correct return value for the test data provided above.}
+    \CommentTok{\#2.650172}
+\NormalTok{    OR\_samples }\OtherTok{\textless{}{-}}\NormalTok{ (p1 }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p1)) }\SpecialCharTok{/}\NormalTok{ (p0}\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p0))}
+\NormalTok{    E\_OR }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(OR\_samples)}
+    \FunctionTok{return}\NormalTok{(E\_OR)}
+\NormalTok{\}}
+\FunctionTok{posterior\_odds\_ratio\_point\_est}\NormalTok{(p0,p1) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.5710218
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{posterior\_odds\_ratio\_interval }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(p0, p1, }\AttributeTok{prob =} \FloatTok{0.95}\NormalTok{) \{}
+    \CommentTok{\# Do computation here, and return as below.}
+    \CommentTok{\# This is the correct return value for the test data provided above.}
+    \CommentTok{\#c(0.6796942,7.3015964)}
+\NormalTok{    OR\_samples }\OtherTok{\textless{}{-}}\NormalTok{ (p1 }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p1)) }\SpecialCharTok{/}\NormalTok{ (p0}\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p0))}
+\NormalTok{    lower\_bound }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(OR\_samples, (}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{prob)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{    upper\_bound }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(OR\_samples, prob}\SpecialCharTok{+}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{prob)}\SpecialCharTok{/}\DecValTok{2}\NormalTok{)}
+\NormalTok{    interval }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(lower\_bound,upper\_bound)}
+    \FunctionTok{hist}\NormalTok{(OR\_samples, }\AttributeTok{main=}\StringTok{"Posterior distribution of OR"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"Odds Ratio"}\NormalTok{, }\AttributeTok{border=}\StringTok{"red"}\NormalTok{, }\AttributeTok{col=}\StringTok{"green"}\NormalTok{, }\AttributeTok{breaks=}\DecValTok{100}\NormalTok{,}\AttributeTok{xlim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\FloatTok{1.3}\NormalTok{),}\AttributeTok{ylim=}\FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{50}\NormalTok{))}
+    \FunctionTok{return}\NormalTok{(interval)}
+\NormalTok{\}}
+\NormalTok{interval}\OtherTok{\textless{}{-}}\FunctionTok{posterior\_odds\_ratio\_interval}\NormalTok{(p0,p1,}\AttributeTok{prob =} \FloatTok{0.95}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{EX3_files/figure-latex/unnamed-chunk-13-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Point estimate of OR:"}\NormalTok{, }\FunctionTok{posterior\_odds\_ratio\_point\_est}\NormalTok{(p0,p1), }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Point estimate of OR: 0.5710218
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"95\% credible interval for OR:"}\NormalTok{, interval[}\DecValTok{1}\NormalTok{], }\StringTok{"{-}"}\NormalTok{, interval[}\DecValTok{2}\NormalTok{], }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 95% credible interval for OR: 0.3221829 - 0.9220926
+\end{verbatim}
+
+From the graph, it appears that the most likely value for the odds ratio
+is around 0.6. This is evident from the highest frequency of this value,
+as represented by the tallest green bar in the histogram. An odds ratio
+of 0.6 suggests that the odds of the event occurring in the group of
+interest are 60\% of the odds of the event occurring in the comparison
+group. In other words, the event is less likely to occur in the group of
+interest compared to the comparison group.
+
+\hypertarget{showcase-advanced-tools-posteriors-rvar-ggdists-stat_dotsinterval}{%
+\subsection{\texorpdfstring{Showcase: advanced tools
+(\texttt{posterior}'s \texttt{rvar}, \texttt{ggdist}'s
+\texttt{stat\_dotsinterval})}{Showcase: advanced tools (posterior's rvar, ggdist's stat\_dotsinterval)}}\label{showcase-advanced-tools-posteriors-rvar-ggdists-stat_dotsinterval}}
+
+\emph{This block will only be visible in your HTML output, but will be
+hidden when rendering to PDF with quarto for the submission.}
+\textbf{Make sure that this does not get displayed in the PDF!}
+
+\emph{This block showcases advanced tools, which you will be allowed and
+expected to use after this assignment.} \textbf{For now, you should
+solve the assignment without the tools showcased herein.}
+
+The \texttt{posterior} package's random variable datatype \texttt{rvar}
+is a
+\href{https://mc-stan.org/posterior/articles/rvar.html\#:~:text=sample\%2Dbased\%20representation\%20of\%20random\%20variables}{``sample-based
+representation of random variables''} which makes handling of random
+samples (of draws) such as the ones contained in the above variables
+\texttt{p0} and \texttt{p1} easier.
+\href{https://mc-stan.org/posterior/articles/rvar.html\#:~:text=The\%20default\%20display\%20of\%20an\%20rvar\%20shows\%20the\%20mean\%20and\%20standard\%20deviation\%20of\%20each\%20element\%20of\%20the\%20array.}{By
+default, it prints as the mean and standard deviation of the draws},
+\textbf{such that \texttt{rvar(p0)} prints as 0.059 ± 0.009 and
+\texttt{rvar(p1)} prints as 0.034 ± 0.0068}.
+
+The datatype is
+\href{https://mc-stan.org/posterior/articles/rvar.html\#:~:text=designed\%20to\%20interoperate\%20with\%20vectorized\%20distributions\%20in\%20the\%20distributional\%20package\%2C\%20to\%20be\%20able\%20to\%20be\%20used\%20inside\%20data.frame()s\%20and\%20tibble()s\%2C\%20and\%20to\%20be\%20used\%20with\%20distribution\%20visualizations\%20in\%20the\%20ggdist\%20package.}{``designed
+to {[}\ldots{]} be able to be used inside \texttt{data.frame()}s and
+\texttt{tibble()}s, and to be used with distribution visualizations in
+the ggdist package.''} The code below sets up an
+\href{https://www.rdocumentation.org/packages/base/versions/3.6.2/topics/data.frame}{R
+\texttt{data.frame()}} with the draws in \texttt{p0} and \texttt{p1}
+wrapped in an \texttt{rvar}, and uses that data frame to visualize the
+draws using
+\href{https://mjskay.github.io/ggdist/index.html}{\texttt{ggdist}}, an R
+package building on
+\href{https://ggplot2.tidyverse.org/}{\texttt{ggplot2}} and
+\href{https://mjskay.github.io/ggdist/index.html\#:~:text=designed\%20for\%20both\%20frequentist\%20and\%20Bayesian\%20uncertainty\%20visualization}{``designed
+for both frequentist and Bayesian uncertainty visualization''}.
+
+The below plot, @fig-showcase-probabilities uses \texttt{ggdist}'s
+\href{https://mjskay.github.io/ggdist/articles/dotsinterval.html}{\texttt{stat\_dotsinterval()}},
+which by default visualizes
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://mjskay.github.io/ggdist/reference/stat_dotsinterval.html\#:~:text=point_interval\%20\%3D\%20\%22median_qi\%22\%2C\%0A\%20\%20.width\%20\%3D\%20c(0.66\%2C\%200.95)\%2C}{an
+  \texttt{rvar}'s median and central 66\% and 95\% intervals} using a
+  black dot and lines of varying thicknesses as when using
+  \texttt{ggdist}'s
+  \href{https://mjskay.github.io/ggdist/reference/stat_pointinterval.html\#examples}{\texttt{stat\_pointinterval()}}
+  and
+\item
+  an \texttt{rvar}'s draws using grey dots as when using
+  \texttt{ggdist}'s
+  \href{https://mjskay.github.io/ggdist/reference/stat_dots.html\#examples}{\texttt{stat\_dots()}}:
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{r0 }\OtherTok{=} \FunctionTok{rvar}\NormalTok{(p0)}
+\NormalTok{r1 }\OtherTok{=} \FunctionTok{rvar}\NormalTok{(p1)}
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}
+    \AttributeTok{rv\_name=}\FunctionTok{c}\NormalTok{(}\StringTok{"control"}\NormalTok{, }\StringTok{"treatment"}\NormalTok{), }\AttributeTok{rv=}\FunctionTok{c}\NormalTok{(r0, r1)}
+\NormalTok{)) }\SpecialCharTok{+}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{xdist=}\NormalTok{rv, }\AttributeTok{y=}\NormalTok{rv\_name) }\SpecialCharTok{+} 
+    \FunctionTok{labs}\NormalTok{(}\AttributeTok{x=}\StringTok{"probabilities of death"}\NormalTok{, }\AttributeTok{y=}\StringTok{"patient group"}\NormalTok{) }\SpecialCharTok{+} 
+    \FunctionTok{stat\_dotsinterval}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{EX3_files/figure-latex/fig-showcase-probabilities-1.pdf}
+\caption{Probabilities of death for the two patient groups.}
+\end{figure}
+
+\texttt{rvar}s make it easy to compute functions of random variables,
+such as
+
+\begin{itemize}
+\tightlist
+\item
+  differences, e.g.~\(p_0 - p_1\): \texttt{r0\ -\ r1} computes an
+  \texttt{rvar} which prints as 0.025 ± 0.011, indicating the
+  \textbf{sample mean} and the \textbf{sample standard deviation} of the
+  difference of the probabilities of death,
+\item
+  products, e.g.~\(p_0 \, p_1\): \texttt{r0\ *\ r1} computes an
+  \texttt{rvar} which prints as 0.002 ± 0.00052 which in this case has
+  no great interpretation, or
+\item
+  the odds ratios needed in task 3.b).
+\end{itemize}
+
+Below, in @fig-showcase-odds-ratios, we compute the odds ratios using
+the \texttt{rvar}s and visualize its median, central intervals and
+draws, as above in @fig-showcase-probabilities:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rodds\_ratio }\OtherTok{=}\NormalTok{ (r1}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{r1))}\SpecialCharTok{/}\NormalTok{(r0}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{{-}}\NormalTok{r0))}
+\FunctionTok{ggplot}\NormalTok{(}\FunctionTok{data.frame}\NormalTok{(}
+    \AttributeTok{rv=}\FunctionTok{c}\NormalTok{(rodds\_ratio)}
+\NormalTok{)) }\SpecialCharTok{+}
+    \FunctionTok{aes}\NormalTok{(}\AttributeTok{xdist=}\NormalTok{rv) }\SpecialCharTok{+} 
+    \FunctionTok{labs}\NormalTok{(}\AttributeTok{x=}\StringTok{"odds ratio"}\NormalTok{, }\AttributeTok{y=}\StringTok{"relative amount of draws"}\NormalTok{) }\SpecialCharTok{+} 
+    \FunctionTok{stat\_dotsinterval}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}
+\centering
+\includegraphics{EX3_files/figure-latex/fig-showcase-odds-ratios-1.pdf}
+\caption{Odds ratios of the two patient groups.}
+\end{figure}
+
+You can use @fig-showcase-odds-ratios to visually check whether the
+answers you computed for 3.b) make sense.
+
+\emph{This block showcases advanced tools, which you will be allowed and
+expected to use after this assignment.} \textbf{For now, you should
+solve the assignment without the tools showcased herein.}
+
+\hypertarget{c-1}{%
+\subsection{(c)}\label{c-1}}
+
+I use two different priors. The first prior assume we have prior
+knowledge that suggests that the treatment generally has a positive
+effect.p0∼Beta(20,80),p1∼Beta(40,60).The next prior assume we want to be
+skeptical about the treatment's efficacy, we might
+use:p0∼Beta(40,60),p1\textasciitilde Beta(20,80),this prior assumes the
+treatment is more likely to be ineffective.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(rstan)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: StanHeaders
+\end{verbatim}
+
+\begin{verbatim}
+## rstan (Version 2.21.8, GitRev: 2e1f913d3ca3)
+\end{verbatim}
+
+\begin{verbatim}
+## For execution on a local, multicore CPU with excess RAM we recommend calling
+## options(mc.cores = parallel::detectCores()).
+## To avoid recompilation of unchanged Stan programs, we recommend calling
+## rstan_options(auto_write = TRUE)
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'rstan'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:posterior':
+## 
+##     ess_bulk, ess_tail
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{N }\OtherTok{\textless{}{-}} \DecValTok{10000}  \CommentTok{\# Number of samples}
+
+\NormalTok{sample\_OR }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(p0\_samples, p1\_samples) \{}
+\NormalTok{  OR\_samples }\OtherTok{\textless{}{-}}\NormalTok{ (p1\_samples }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p1\_samples)) }\SpecialCharTok{/}\NormalTok{ (p0\_samples }\SpecialCharTok{/}\NormalTok{ (}\DecValTok{1} \SpecialCharTok{{-}}\NormalTok{ p0\_samples))}
+  \FunctionTok{list}\NormalTok{(}
+    \AttributeTok{E\_OR =} \FunctionTok{mean}\NormalTok{(OR\_samples),}
+    \AttributeTok{lower\_bound =} \FunctionTok{quantile}\NormalTok{(OR\_samples, }\FloatTok{0.025}\NormalTok{),}
+    \AttributeTok{upper\_bound =} \FunctionTok{quantile}\NormalTok{(OR\_samples, }\FloatTok{0.975}\NormalTok{)}
+\NormalTok{  )}
+\NormalTok{\}}
+
+\CommentTok{\# 1. Informative Prior}
+\NormalTok{p0\_samples\_info }\OtherTok{\textless{}{-}} \FunctionTok{rbeta}\NormalTok{(N, }\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{)}
+\NormalTok{p1\_samples\_info }\OtherTok{\textless{}{-}} \FunctionTok{rbeta}\NormalTok{(N, }\DecValTok{40}\NormalTok{, }\DecValTok{60}\NormalTok{)}
+\NormalTok{results\_info }\OtherTok{\textless{}{-}} \FunctionTok{sample\_OR}\NormalTok{(p0\_samples\_info, p1\_samples\_info)}
+
+\CommentTok{\# 2. Skeptical Prior}
+\NormalTok{p0\_samples\_skept }\OtherTok{\textless{}{-}} \FunctionTok{rbeta}\NormalTok{(N, }\DecValTok{40}\NormalTok{, }\DecValTok{60}\NormalTok{)}
+\NormalTok{p1\_samples\_skept }\OtherTok{\textless{}{-}} \FunctionTok{rbeta}\NormalTok{(N, }\DecValTok{20}\NormalTok{, }\DecValTok{80}\NormalTok{)}
+\NormalTok{results\_skept }\OtherTok{\textless{}{-}} \FunctionTok{sample\_OR}\NormalTok{(p0\_samples\_skept, p1\_samples\_skept)}
+
+\CommentTok{\# Print Results}
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Informative Prior:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Informative Prior:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Point estimate of OR:"}\NormalTok{, results\_info}\SpecialCharTok{$}\NormalTok{E\_OR, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Point estimate of OR: 2.844236
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"95\% credible interval for OR:"}\NormalTok{, results\_info}\SpecialCharTok{$}\NormalTok{lower\_bound, }\StringTok{"{-}"}\NormalTok{, results\_info}\SpecialCharTok{$}\NormalTok{upper\_bound, }\StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 95% credible interval for OR: 1.433495 - 5.204581
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Skeptical Prior:}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Skeptical Prior:
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"Point estimate of OR:"}\NormalTok{, results\_skept}\SpecialCharTok{$}\NormalTok{E\_OR, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Point estimate of OR: 0.3903324
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{cat}\NormalTok{(}\StringTok{"95\% credible interval for OR:"}\NormalTok{, results\_skept}\SpecialCharTok{$}\NormalTok{lower\_bound, }\StringTok{"{-}"}\NormalTok{, results\_skept}\SpecialCharTok{$}\NormalTok{upper\_bound, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 95% credible interval for OR: 0.1947197 - 0.699118
+\end{verbatim}
+
+Informative Prior: The point estimate for the odds ratio (OR) is
+2.843787. This implies that the odds of death in the treatment group are
+approximately 2.84 times higher than in the control group. The 95\%
+credible interval is {[}1.44799, 5.095236{]}. This relatively narrow
+interval suggests a higher level of confidence in this estimate. In the
+context of this informative prior, the treatment may have a certain
+positive effect. Skeptical Prior: The point estimate for the odds ratio
+(OR) is 0.389544. This means the odds of death in the treatment group
+are about 61\% lower than in the control group (1 - 0.389544 =
+0.610456). The 95\% credible interval is {[}0.1967926, 0.6907148{]}.
+This interval is narrow and lies entirely below 1, indicating that in
+the context of this skeptical prior, the treatment effect may indeed be
+positive. Prior selection has significant sensitivity to our inference.
+The prior information leads us to believe that treatment is effective,
+with a relatively positive probability ratio and confidence interval. On
+the contrary, the skeptical prior leads us to a relatively conservative
+conclusion that the treatment effect may not be significant. This
+difference emphasizes the importance of carefully considering and
+selecting prior knowledge before forming a conclusion.
+
+\hypertarget{inference-for-the-difference-between-normal-means-3-points}{%
+\section{Inference for the difference between normal means (3
+points)}\label{inference-for-the-difference-between-normal-means-3-points}}
+
+Loading the library and the data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{data}\NormalTok{(}\StringTok{"windshieldy2"}\NormalTok{)}
+\CommentTok{\# The new data are now stored in the variable \textasciigrave{}windshieldy2\textasciigrave{}.}
+\CommentTok{\# The below displays the first few rows of the new data:}
+\FunctionTok{head}\NormalTok{(windshieldy2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 15.980 14.206 16.011 17.250 15.993 15.722
+\end{verbatim}
+
+\hypertarget{a-2}{%
+\subsection{(a)}\label{a-2}}
+
+Likelihood: The hardness measurements for both samples are assumed to be
+normally distributed. For the first production line: \[
+\mathbf{y}_1 | \mu_1, \sigma_1 \sim \text{Normal}(\mu_1, \sigma_1^2)
+\] For the second production line: \[
+\mathbf{y}_2 | \mu_2, \sigma_2 \sim \text{Normal}(\mu_2, \sigma_2^2)
+\] 2.Prior: For the means of the hardness measurements from both lines:
+\[
+\mu_1, \mu_2 \sim \text{Normal}(mean,variance)
+\] For the standard deviations of the hardness measurements: \[
+\sigma_1, \sigma_2 \sim \text{Uniform}(lower, upper)
+\] 3.Posterior: Using the Bayes' theorem, the posterior is proportional
+to the likelihood times the prior: \[
+p(\mu_1, \mu_2, \sigma_1, \sigma_2 | \mathbf{y}_1, \mathbf{y}_2) \propto p(\mathbf{y}_1 | \mu_1, \sigma_1) \times p(\mathbf{y}_2 | \mu_2, \sigma_2) \times p(\mu_1) \times p(\mu_2) \times p(\sigma_1) \times p(\sigma_2)
+\]
+
+\hypertarget{b-2}{%
+\subsection{(b)}\label{b-2}}
+
+Write your answers and code here!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Useful functions: mean(), length(), sqrt(), sum(),}
+\CommentTok{\# rtnew() (from aaltobda), quantile() and hist().}
+\CommentTok{\#windshieldy1}
+\CommentTok{\#windshieldy2}
+\NormalTok{E }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data1,data2) \{}
+\NormalTok{     n1 }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(data1)}
+\NormalTok{     mean1 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data1)}
+\NormalTok{     var1 }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(data1)}
+\NormalTok{     n2 }\OtherTok{\textless{}{-}} \FunctionTok{length}\NormalTok{(data2)}
+\NormalTok{     mean2 }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(data2)}
+\NormalTok{     var2 }\OtherTok{\textless{}{-}} \FunctionTok{var}\NormalTok{(data2)}
+     \CommentTok{\# Use rtnew to sample from posterior distributions of mu1 and mu2}
+\NormalTok{     post\_samples\_mu1 }\OtherTok{\textless{}{-}} \FunctionTok{rtnew}\NormalTok{(n1, n1 }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, mean1, }\FunctionTok{sqrt}\NormalTok{(var1 }\SpecialCharTok{/}\NormalTok{ n1))}
+\NormalTok{     post\_samples\_mu2 }\OtherTok{\textless{}{-}} \FunctionTok{rtnew}\NormalTok{(n2, n2 }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{, mean2, }\FunctionTok{sqrt}\NormalTok{(var2 }\SpecialCharTok{/}\NormalTok{ n2))}
+     \CommentTok{\#print(post\_samples\_mu1)}
+     \CommentTok{\# Compute the difference}
+\NormalTok{     post\_samples\_mu2 }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(post\_samples\_mu2, }\FunctionTok{length}\NormalTok{(post\_samples\_mu1))}
+     \CommentTok{\#print(post\_samples\_mu2)}
+     \CommentTok{\#print(post\_samples\_mu1)}
+\NormalTok{     post\_samples\_mud }\OtherTok{\textless{}{-}}\NormalTok{ post\_samples\_mu1 }\SpecialCharTok{{-}}\NormalTok{ post\_samples\_mu2}
+
+     \CommentTok{\# Point estimate and credible interval}
+\NormalTok{     point\_estimate\_mud }\OtherTok{\textless{}{-}} \FunctionTok{mean}\NormalTok{(post\_samples\_mud)}
+     \FunctionTok{print}\NormalTok{(point\_estimate\_mud)}
+\NormalTok{     cred\_interval\_mud }\OtherTok{\textless{}{-}} \FunctionTok{quantile}\NormalTok{(post\_samples\_mud, }\FunctionTok{c}\NormalTok{(}\FloatTok{0.025}\NormalTok{, }\FloatTok{0.975}\NormalTok{))}
+
+     \CommentTok{\# Plotting}
+     \FunctionTok{hist}\NormalTok{(post\_samples\_mud, }\AttributeTok{main=}\StringTok{"Posterior distribution of mu\_d"}\NormalTok{, }\AttributeTok{xlab=}\StringTok{"mu\_d"}\NormalTok{, }\AttributeTok{border=}\StringTok{"blue"}\NormalTok{, }\AttributeTok{col=}\StringTok{"lightblue"}\NormalTok{)}
+     \FunctionTok{abline}\NormalTok{(}\AttributeTok{v =}\NormalTok{ point\_estimate\_mud, }\AttributeTok{col=}\StringTok{"red"}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{)}
+     \FunctionTok{abline}\NormalTok{(}\AttributeTok{v =}\NormalTok{ cred\_interval\_mud, }\AttributeTok{col=}\StringTok{"green"}\NormalTok{, }\AttributeTok{lwd=}\DecValTok{2}\NormalTok{, }\AttributeTok{lty=}\DecValTok{2}\NormalTok{)}
+     \FunctionTok{cat}\NormalTok{(}\StringTok{"Point estimate for mu\_d:"}\NormalTok{, point\_estimate\_mud, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+     \FunctionTok{cat}\NormalTok{(}\StringTok{"95\% credible interval for mu\_d:"}\NormalTok{, cred\_interval\_mud, }\StringTok{"}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{\}}
+
+\FunctionTok{E}\NormalTok{(windshieldy1,windshieldy2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -1.382027
+\end{verbatim}
+
+\includegraphics{EX3_files/figure-latex/unnamed-chunk-18-1.pdf}
+
+\begin{verbatim}
+## Point estimate for mu_d: -1.382027 
+## 95% credible interval for mu_d: -1.920654 -0.5423509
+\end{verbatim}
+
+The average hardness of the windshield produced by production line 1 is
+estimated to be 1.36 units lower than that of production line 2. 95\%
+confidence indicates that the difference is probably between -1.76 and
+-0.81. This provides strong evidence that there is a significant
+difference in the hardness of windshields manufactured by the two
+production lines, with the hardness of production line 1 being
+significantly lower.
+
+\hypertarget{c-2}{%
+\subsection{(c)}\label{c-2}}
+
+In the context of continuous distribution, in this case, the normal
+distribution of mu1 and mu2 used for modeling mean, the probability of
+any specific value, including the probability of their complete
+equality, is technically 0.
+
+\hypertarget{markmyassignment}{%
+\subsection{markmyassignment}\label{markmyassignment}}
+
+\emph{This block will only be visible in your HTML output, but will be
+hidden when rendering to PDF with quarto for the submission.}
+\textbf{Make sure that this does not get displayed in the PDF!}
+
+The following will check the functions for which
+\texttt{markmyassignment} has been set up:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{mark\_my\_assignment}\NormalTok{()    }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## v | F W S  OK | Context
+## / |         0 | task-1-subtask-1-tests                                          / |         0 | mu_point_est()                                                  v |         4 | mu_point_est()
+## / |         0 | task-2-subtask-1-tests                                          / |         0 | mu_interval()                                                   v |         5 | mu_interval()
+## / |         0 | task-3-subtask-1-tests                                          / |         0 | mu_pred_interval()                                              v |         5 | mu_pred_interval()
+## / |         0 | task-4-subtask-1-tests                                          / |         0 | mu_pred_point_est()                                             v |         4 | mu_pred_point_est()
+## / |         0 | task-5-subtask-1-tests                                          / |         0 | posterior_odds_ratio_point_est()                                v |         6 | posterior_odds_ratio_point_est()
+## / |         0 | task-6-subtask-1-tests                                          / |         0 | posterior_odds_ratio_interval()
+\end{verbatim}
+
+\includegraphics{EX3_files/figure-latex/unnamed-chunk-19-1.pdf}
+\includegraphics{EX3_files/figure-latex/unnamed-chunk-19-2.pdf}
+\includegraphics{EX3_files/figure-latex/unnamed-chunk-19-3.pdf}
+
+\begin{verbatim}
+## \ |         6 | posterior_odds_ratio_interval()
+\end{verbatim}
+
+\includegraphics{EX3_files/figure-latex/unnamed-chunk-19-4.pdf}
+
+\begin{verbatim}
+## v |         8 | posterior_odds_ratio_interval()
+## 
+## == Results =====================================================================
+## [ FAIL 0 | WARN 0 | SKIP 0 | PASS 32 ]
+## Good work!
+\end{verbatim}
+
+Note that the \texttt{echo\ =\ FALSE} parameter was added to the code
+chunk to prevent printing of the R code that generated the plot.
+
+\end{document}

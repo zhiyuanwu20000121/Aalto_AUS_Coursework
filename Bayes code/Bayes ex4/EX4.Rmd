@@ -1,0 +1,334 @@
+---
+title: "EX4"
+output:
+  word_document: default
+  pdf_document: default
+date: "2023-09-25"
+---
+---
+title: "Assignment 4"
+author: anonymous # <-- hand in anonymously
+format: 
+  html:
+    toc: true
+    code-tools: true
+    code-line-numbers: true  
+    number-sections: true
+    mainfont: Georgia, serif
+    page-layout: article
+  pdf:  
+    geometry:
+    - left=1cm,top=1cm,bottom=1cm,right=7cm
+    number-sections: true
+    code-annotations: none
+editor: source
+---
+
+
+# General information
+:::: {.content-hidden when-format="pdf"}
+::: {.callout-warning collapse=false}
+AI was used in part f and g to search some related information and code.
+## Setup 
+
+
+*This block will only be visible in your HTML output, but will be hidden when rendering to PDF with quarto for the submission.*
+**Make sure that this does not get displayed in the PDF!**
+    
+
+
+
+This is the template for [assignment 4](assignment4.html). You can download the [qmd-file](https://avehtari.github.io/BDA_course_Aalto/assignments/template4.qmd) or copy the code from this rendered document after clicking on `</> Code` in the top right corner.
+
+**Please replace the instructions in this template by your own text, explaining what you are doing in each exercise.** 
+
+The following will set-up [`markmyassignment`](https://github.com/MansMeg/markmyassignment) to check your functions at the end of the notebook:
+ 
+```{r} 
+if(!require(markmyassignment)){
+    install.packages("markmyassignment")
+    library(markmyassignment)
+}
+assignment_path = paste("https://github.com/avehtari/BDA_course_Aalto/",
+"blob/master/assignments/tests/assignment4.yml", sep="")
+set_assignment(assignment_path)    
+```       
+
+The following installs and loads the `aaltobda` package:
+```{r}
+if(!require(aaltobda)){
+    install.packages("remotes")
+    remotes::install_github("avehtari/BDA_course_Aalto", subdir = "rpackage", upgrade="never")
+    library(aaltobda)
+}
+```
+The following installs and loads the [`latex2exp` package](https://github.com/stefano-meschiari/latex2exp), which allows us to use LaTeX in plots:
+```{r}
+if(!require(latex2exp)){
+    install.packages("latex2exp")
+    library(latex2exp)
+}
+```
+
+:::
+::::
+
+
+# Bioassay model 
+
+## (a)
+
+The mean vector is given by:$$ \mathbf{\mu} = \begin{bmatrix}
+\mu_{\alpha} \\
+\mu_{\beta}
+\end{bmatrix}$$
+We can put our data in this vector where $\mu_{\alpha}$=0,$\mu_{\beta}$=10  
+
+Given the result:
+$$ \mathbf{\mu} = \begin{bmatrix}
+0 \\
+10
+\end{bmatrix}$$
+
+The covariance matrix is:
+$$\Sigma = \begin{bmatrix}
+\sigma^2_{\alpha} & \mathrm{cov}(\alpha, \beta) \\
+\mathrm{cov}(\alpha, \beta) & \sigma^2_{\beta}
+\end{bmatrix}$$
+Where:
+$$ \mathrm{cov}(\alpha, \beta) = \mathrm{corr}(\alpha, \beta) \times \sigma_{\alpha} \times \sigma_{\beta} $$
+Because$\sigma_{\alpha} = 2$
+$\sigma_{\beta} = 10$
+$\mathrm{corr}(\alpha, \beta) = 0.6$
+
+So $\mathrm{cov}(\alpha, \beta) = 0.6 \times 2 \times 10 = 12$
+The covariance matrix is:
+$$ \Sigma = \begin{bmatrix}
+4 & 12 \\
+12 & 100
+\end{bmatrix} $$
+## (b)
+
+
+Loading the library and the data.
+``` {r}
+# Useful functions: quantile()
+# and mcse_quantile() (from aaltobda)
+data("bioassay_posterior")
+# The 4000 draws are now stored in the variable `bioassay_posterior`.
+# The below displays the first rows of the data:
+head(bioassay_posterior)
+```
+
+```{r}
+# Mean
+mean_alpha <- mean(bioassay_posterior$alpha)
+mean_beta <- mean(bioassay_posterior$beta)
+cat("The mean_alpha=",mean_alpha,"\n")
+cat("The mean_beta=",mean_beta,"\n")
+# 5% and 95% Quantiles using the quantile function
+quantile_alpha <- quantile(bioassay_posterior$alpha, probs = c(0.05, 0.95))
+quantile_beta <- quantile(bioassay_posterior$beta, probs = c(0.05, 0.95))
+cat("The 5% and 95% quantiles for alpha:",quantile_alpha,"\n") 
+cat("The 5% and 95% quantiles for beta:",quantile_beta,"\n")
+
+S <- length(bioassay_posterior$alpha)  # Number of draws
+mcse_mean_alpha <- sqrt(var(bioassay_posterior$alpha) / S)
+mcse_mean_beta <- sqrt(var(bioassay_posterior$beta) / S)
+cat("The mcse_mean_alpha=",mcse_mean_alpha,"\n")
+cat("The mcse_mean_beta=",mcse_mean_beta,"\n")
+ES_mean_alpha_lower<-mean_alpha-3* mcse_mean_alpha
+ES_mean_alpha_upper<-mean_alpha+3* mcse_mean_alpha
+ES_mean_beta_lower<-mean_beta-3* mcse_mean_beta
+ES_mean_beta_upper<-mean_beta+3* mcse_mean_beta
+cat("The estimation alpha is between",ES_mean_alpha_lower,"and",ES_mean_alpha_upper,", so we can consider the aplha=1.","\n")
+cat("The estimation beta is between",ES_mean_beta_lower,"and",ES_mean_beta_upper,", so we can consider the beta=11.","\n")
+mcse_quantile_alpha_lower <- mcse_quantile(bioassay_posterior$alpha, 0.05)
+mcse_quantile_alpha_upper <- mcse_quantile(bioassay_posterior$alpha, 0.95)
+mcse_quantile_alpha <- c(mcse_quantile_alpha_lower$mcse,mcse_quantile_alpha_upper$mcse)
+cat("The MCSEs_alpha:5%:",mcse_quantile_alpha[1],"95%:",mcse_quantile_alpha[2],"\n")
+mcse_quantile_beta_lower <- mcse_quantile(bioassay_posterior$beta, 0.05)
+mcse_quantile_beta_upper <- mcse_quantile(bioassay_posterior$beta, 0.95)
+mcse_quantile_beta <- c(mcse_quantile_beta_lower$mcse,mcse_quantile_beta_upper$mcse)
+cat("The MCSEs_beta:5%:",mcse_quantile_beta[1],"95%:",mcse_quantile_beta[2])
+```
+The mean_alpha= 0.9852263 
+The mean_beta= 10.59648
+The mcse_mean_alpha= 0.01482435 
+The mcse_mean_beta= 0.07560016 
+The estimation alpha is between 0.9407533 and 1.029699 , so we can consider the aplha=1.0. 
+The estimation beta is between 10.36968 and 10.82328 , so we can consider the beta=10.6. 
+ 
+The 5% and 95% quantiles for alpha: -0.4675914-2.610203 
+The 5% and 95% quantiles for beta: 3.991403-19.34037 
+The MCSEs_alpha:5%: 0.02600412 95%: 0.04206342 
+The MCSEs_beta:5%: 0.07043125 95%: 0.2412129
+
+We can consider the 5% and 95% quantiles for alpha are: -0.5-2.6
+We can consider the 5% and 95% quantiles for beta are: 4-19
+
+# Importance sampling
+
+## (c)
+
+Computing the log ratios instead of ratios is often numerically more stable, especially when dealing with small probabilities. In many cases, likelihoods or probabilities can be extremely small, and their direct multiplication might cause values rounding to zero, leading to loss of information. Taking logs and working in the log space can mitigate these numerical issues. After computing in the log space, we can exponentiate the result if we need the actual probabilities or ratios.
+```{r}
+# Useful functions: bioassaylp (from aaltobda)
+alpha_test = c(1.896, -3.6,  0.374, 0.964, -3.123, -1.581)
+beta_test = c(24.76, 20.04, 6.15, 18.65, 8.16, 17.4)
+data("bioassay")
+
+log_importance_weights <- function(alpha, beta) {
+    # Do computation here, and return as below.
+    # This is the correct return value for the test data provided above.
+    #c(-8.95, -23.47, -6.02, -8.13, -16.61, -14.57)
+    x <- bioassay$x
+    y <- bioassay$y
+    n <- bioassay$n
+    # Compute the logarithm of the likelihood using bioassaylp
+    log_likelihood <- bioassaylp(alpha, beta, x=x, y=y, n=n)
+    
+    return(log_likelihood)
+}
+print(round(log_importance_weights(alpha_test,beta_test),2))
+```
+
+
+
+## (d)
+
+
+```{r}
+normalized_importance_weights <- function(alpha, beta) {
+    # Do computation here, and return as below.
+    # This is the correct return value for the test data provided above.
+    #c(0.045, 0.000, 0.852, 0.103, 0.000, 0.000)
+    # First, compute the unnormalized log importance weights
+    log_weights = log_importance_weights(alpha, beta)
+    weights = exp(log_weights)
+    # Normalize the weights to sum to one
+    normalized_weights = weights / sum(weights)
+    # Round to three decimal places
+    normalized_weights_rounded = round(normalized_weights, 5)
+    
+    return(normalized_weights_rounded)
+}
+print(round(normalized_importance_weights(alpha_test,beta_test),3))
+#normalized_importance_weights(bioassay_posterior$alpha,bioassay_posterior$beta)
+```
+
+
+
+## (e)
+$\text{mean_vector} = \begin{bmatrix} 0 \\ 10 \end{bmatrix}$
+
+```{r}
+# Set up parameters
+n_draws <- 4000
+
+# Mean vector
+mean_vector <- c(0, 10)
+
+# Covariance matrix
+var_alpha <- 2^2
+var_beta <- 10^2
+cov_alpha_beta <- 0.6 * sqrt(var_alpha * var_beta)
+cov_matrix <- matrix(c(var_alpha, cov_alpha_beta, cov_alpha_beta, var_beta), 2, 2)
+
+# Sample from the prior distributions using rmvnorm
+samples <- rmvnorm(n_draws, mean_vector, cov_matrix)
+alpha_samples <- samples[, 1]
+beta_samples <- samples[, 2]
+
+# Compute normalized importance ratios for the samples
+normalized_weights <- normalized_importance_weights(alpha_samples, beta_samples)
+
+# Plot a histogram of the normalized importance ratios
+hist(normalized_weights, main="Histogram of Normalized Importance Ratios", 
+     xlab="Normalized Importance Ratios", col="skyblue", border="red", breaks=50)
+
+```
+
+
+## (f)
+
+$S_{eff}=\frac{1}{\sum_{s=1}^{S}(\widetilde{w}(\theta^s))^2}$
+```{r}
+S_eff <- function(alpha, beta) {
+    # Do computation here, and return as below.
+    # This is the correct return value for the test data provided above.
+    #1.354
+    # Compute the logarithm of the importance weights
+    log_weights <- log_importance_weights(alpha, beta)
+    
+    # Exponentiate the log weights to get the unnormalized importance weights
+    weights = exp(log_weights)
+    
+    # Normalize the weights so they sum to one
+    normalized_weights = weights / sum(weights)
+    
+    # Compute the effective sample size using the formula
+    return(1 / sum(normalized_weights^2))
+}
+S_eff(alpha_samples,beta_samples)
+cat("We need about",round(S_eff(alpha_samples,beta_samples),0),"samples to be effective.","\n")
+```
+
+
+## (g)
+In my opinion, if all samples have the same weight, the effective sample size will be close to the actual sample size. However, if some samples have significantly greater weights than others, the effective sample size will decrease, as this means that only a small number of samples play a dominant role in the calculation, while the majority of samples provide little information. 
+If the proposal distribution is a good match for the target distribution, the variance of the importance weights will be small. This means that the estimation will be more stable and less sensitive to the randomness of the samples drawn. Consequently, S_eff will be higher.
+From the histogram plotted in e, it can be seen that most of the weights are concentrated at the lower end of the range. This indicates that the importance ratio of most samples is low, which means that their contribution to the overall estimation is relatively small.
+
+
+## (h)
+
+
+```{r}
+posterior_mean <- function(alpha, beta) {
+    # Do computation here, and return as below.
+    # This is the correct return value for the test data provided above.
+    #c(0.503, 8.275)
+    log_weights <- log_importance_weights(alpha, beta)
+    
+    # Convert to actual weights
+    weights = exp(log_weights)
+    
+    # Normalize the weights
+    normalized_weights = weights / sum(weights)
+    # Compute the means
+    alpha_mean = sum(normalized_weights * alpha)
+    beta_mean = sum(normalized_weights * beta)
+    E_square_alpha_est = sum(normalized_weights * alpha * alpha)
+    E_square_beta_est = sum(normalized_weights * beta * beta)
+    V_alpha_E = E_square_alpha_est - alpha_mean^2
+    V_beta_E = E_square_beta_est - beta_mean^2
+    MCSE_alpha <- sqrt(V_alpha_E / 4000)
+    MCSE_beta <- sqrt(V_beta_E /4000)
+    cat("The MCSE for alpha:",MCSE_alpha,"\n")
+    cat("The MCSE for beta:",MCSE_beta,"\n")
+    return(c(alpha_mean, beta_mean))
+}
+
+result<-posterior_mean(alpha_samples,beta_samples)
+cat("alpha_mean:",round(result[1],3),"\n","beta_mean:",round(result[2],3),"\n")
+```
+
+
+
+:::: {.content-hidden when-format="pdf"}
+::: {.callout-warning collapse=false}
+
+## markmyassignment
+
+
+*This block will only be visible in your HTML output, but will be hidden when rendering to PDF with quarto for the submission.*
+**Make sure that this does not get displayed in the PDF!**
+    
+
+
+The following will check the functions for which `markmyassignment` has been set up:
+ 
+```{r}  
+mark_my_assignment()    
+```      

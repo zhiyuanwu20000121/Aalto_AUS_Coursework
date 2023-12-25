@@ -1,0 +1,247 @@
+---
+title: "Assignment 9"
+author: "anonymous"
+subtitle: Decision analysis
+output: word_document
+editor: source
+format:
+  html:
+    toc: yes
+    code-tools: yes
+    code-line-numbers: yes
+    number-sections: yes
+    mainfont: Georgia, serif
+    page-layout: article
+  pdf:
+    geometry: left=1cm,top=1cm,bottom=1cm,right=7cm
+    number-sections: yes
+    code-annotations: none
+---
+
+
+# General information
+
+This is the template for [assignment 9](assignment9.html). You can download the [qmd-file](https://avehtari.github.io/BDA_course_Aalto/assignments/template9.qmd) or copy the code from this rendered document after clicking on `</> Code` in the top right corner.
+
+**Please replace the instructions in this template by your own text, explaining what you are doing in each exercise.** 
+
+
+
+:::: {.content-hidden when-format="pdf"}
+::: {.callout-warning collapse=false}
+ 
+## Setup
+
+
+*This block will only be visible in your HTML output, but will be hidden when rendering to PDF with quarto for the submission.*
+**Make sure that this does not get displayed in the PDF!**
+    
+
+
+
+The following loads several needed packages:
+
+```{r}
+#| label: imports
+library(bayesplot)
+library(cmdstanr)
+library(dplyr)
+library(ggplot2)
+library(ggdist) # for stat_dotsinterval
+library(posterior)
+library(brms)
+# Globally specfiy cmdstan backend for brms
+options(brms.backend="cmdstanr")
+# Tell brms to cache results if possible
+options(brms.file_refit="on_change")
+
+# Set more readable themes with bigger font for plotting packages
+ggplot2::theme_set(theme_minimal(base_size = 14))
+bayesplot::bayesplot_theme_set(theme_minimal(base_size = 14))
+```
+
+:::
+::::
+
+
+# Escaping from the chicken coop
+
+## (a)
+
+
+:::: {.content-hidden when-format="pdf"}
+::: {.callout-warning collapse=false}
+ 
+### A simple GP model
+
+
+*This block will only be visible in your HTML output, but will be hidden when rendering to PDF with quarto for the submission.*
+**Make sure that this does not get displayed in the PDF!**
+    
+
+
+
+The below fits a GP model to the chicken growth curves. It may take a few minutes to fit, but you 
+can also [download the fit `.rds`-file](./additional_files/assignment9/gp_chicken_fit.rds) and work with that fit object. 
+
+```{r fit}
+
+fit <- brm(
+  weight ~ gp(Time) + (0+Time|Diet) + (0+Time|Chick),
+  data = ChickWeight,
+  family = "lognormal",
+  file="~/notebooks/Bayes EX9/gp_chicken_fit"
+)
+brms::pp_check(fit, type = "intervals_grouped", group = "Diet")
+```
+
+:::
+::::
+
+
+
+```{r}
+# Useful r functions: 
+#   rep(..., each=...), cbind, colMeans, 
+#   posterior_predict(..., newdata=..., allow_new_levels=TRUE, sample_new_levels="gaussian")
+#   ggplot, geom_line, aes(..., group=..., color=...)
+new_data <- expand.grid(Time = 1:40, Diet = unique(ChickWeight$Diet))
+new_data$Chick <- 1  # Dummy variable for Chick, needed for prediction
+Time = rep(1:40, time=4)
+Diet = rep(1:4, each=40)
+new_data = data.frame(Time, Chick=51, Diet)
+
+# Predicting weights
+predictions <- posterior_predict(fit, newdata = new_data, allow_new_levels = TRUE, sample_new_levels = "gaussian")
+
+# Summarize predictions
+new_data$PredictedWeight <- apply(predictions, 2, mean)  # Assuming you want the mean
+
+# Visualization
+ggplot(new_data, aes(x = Time, y = PredictedWeight, group = Diet, color = Diet)) +
+  geom_line() +
+  labs(title = "Predicted Chicken Weight over Time by Diet",
+       x = "Time (days)",
+       y = "Predicted Weight") +
+  theme_minimal()
+
+```
+Considering chicken growth, the predictions are reasonable in context, as the weight gain is smooth and continuous, and the expected growth rate varies due to dietary differences.
+
+
+:::: {.content-hidden when-format="pdf"}
+::: {.callout-warning collapse=false}
+
+###  Chickenwise probability of escape function
+
+
+*This block will only be visible in your HTML output, but will be hidden when rendering to PDF with quarto for the submission.*
+**Make sure that this does not get displayed in the PDF!**
+    
+
+
+
+```{r}
+new_data <- expand.grid(Chick = unique(ChickWeight$Chick),
+                        Time = 1:40,
+                        Diet = unique(ChickWeight$Diet))
+
+predicted_weights <- posterior_predict(fit, newdata = new_data, allow_new_levels = TRUE, sample_new_levels = "gaussian")
+mean_predicted_weights <- apply(predicted_weights, 2, mean)
+
+new_data$PredictedWeight <- mean_predicted_weights
+
+bump <- function(x, loc=0, scale=1){
+  xi = (x - loc) / scale
+  ifelse(abs(xi) < 1, exp(-1/(1-xi^2)), 0.)
+}
+daily_probability_of_escape <- function(day, weight){
+  bump(day, 30, 10) * (1e-2 + bump(weight, 200, 150)+bump(weight, 700, 150))
+}
+chickenwise_probability_of_escape <- function(weights){
+  # Expects a vector of daily weights from day 1 to N and computes the probability of 
+  # escape at the end of the time series
+  prob_of_failure = 1
+  for(day in 1:length(weights)){
+    prob_of_failure = prob_of_failure * (1-daily_probability_of_escape(day, weights[day]))
+  }
+  return(1 - prob_of_failure)
+}
+```
+
+:::
+::::
+
+
+
+## (b)
+
+
+```{r}
+# Useful r functions: chickenwise_probability_of_escape (see above)
+# rep(..., each=...), apply, 
+# ggplot, stat_dotsinterval
+# Splitting the predictions into separate variables for each diet
+diet1_predictions = predictions[, 1:40]
+diet2_predictions = predictions[, 41:80]
+diet3_predictions = predictions[, 81:120]
+diet4_predictions = predictions[, 121:160]
+
+# Applying the chickenwise_probability_of_escape function to calculate probabilities for each diet
+diet1_escape_probs = apply(diet1_predictions, 1, chickenwise_probability_of_escape)
+diet2_escape_probs = apply(diet2_predictions, 1, chickenwise_probability_of_escape)
+diet3_escape_probs = apply(diet3_predictions, 1, chickenwise_probability_of_escape)
+diet4_escape_probs = apply(diet4_predictions, 1, chickenwise_probability_of_escape)
+
+# Combining the calculated probabilities into a single data frame
+diet_escape_probabilities = data.frame(
+  Diet = rep(c("1", "2", "3", "4"), each = 4000),
+  EscapeProbability = c(diet1_escape_probs, diet2_escape_probs, diet3_escape_probs, diet4_escape_probs)
+)
+
+# Plotting the probabilities using ggplot2
+ggplot(diet_escape_probabilities, aes(x = EscapeProbability, y = Diet)) +
+  stat_dotsinterval(quantiles = 200, scale = .9) +
+  labs(title = "The Probabilities of Escape per Diet", x = "Probability of Escape", y = "Diet") +
+  theme_minimal()
+
+```
+From this boxplot, we can infer that the diet has an influence on the probability of escape, with Diet 1 resulting in a lower probability compared to the other diets. Additionally, the presence of an outlier for Diet 2 could indicate an individual chicken's characteristics or conditions not typical of the group. Overall, while most chickens across diets have a moderate chance of escape, there is some variability
+
+
+## (c)
+```{r}
+library(dplyr)
+
+# Calculate predicted weights
+predicted_weights <- posterior_predict(fit, newdata = new_data, allow_new_levels = TRUE, sample_new_levels = "gaussian")
+mean_predicted_weights <- apply(predicted_weights, 2, mean)
+
+# Add the predicted weights to the new data
+new_data$PredictedWeight <- mean_predicted_weights
+
+# Compute the chickenwise probability of escape for each chicken
+# Assuming new_data is already ordered by Chick and then by Time
+grouped_data <- new_data %>%
+  group_by(Chick) %>%
+  summarise(ProbabilityOfEscape = chickenwise_probability_of_escape(PredictedWeight))
+
+# Compute wrongProbability using mean predicted weights for each chicken
+grouped_data$wrongProbability <- chickenwise_probability_of_escape(mean_predicted_weights)
+
+# Aggregate these probabilities by diet
+# Joining the diet information to the grouped data
+grouped_data <- grouped_data %>%
+  left_join(unique(ChickWeight[, c("Chick", "Diet")]), by = "Chick")
+
+final_probabilities <- grouped_data %>%
+  group_by(Diet) %>%
+  summarise(ExpectedProbabilityOfEscape = mean(ProbabilityOfEscape),
+            IncorrectProbabilityOfEscape = mean(wrongProbability))
+
+# Print the final expected probabilities by diet
+print(final_probabilities)
+
+```
+
+The accurately determined probability surpasses the erroneously computed one. This is because the proper method aggregates the likelihood of escape incrementally over time. With the passage of time, the accumulated escape probability naturally escalates as it integrates the individual escape probabilities at successive time intervals.

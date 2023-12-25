@@ -1,0 +1,281 @@
+---
+title: "Assignment 5"
+author: "anonymous"
+format:
+  html:
+    toc: yes
+    code-tools: yes
+    code-line-numbers: yes
+    number-sections: yes
+    mainfont: Georgia, serif
+    page-layout: article
+  pdf:
+    geometry: left=1cm,top=1cm,bottom=1cm,right=7cm
+    number-sections: yes
+    code-annotations: none
+output: word_document
+editor: source
+---
+
+
+# General information
+
+:::: {.content-hidden when-format="pdf"}
+::: {.callout-warning collapse=false}
+ 
+## Setup 
+
+
+*This block will only be visible in your HTML output, but will be hidden when rendering to PDF with quarto for the submission.*
+**Make sure that this does not get displayed in the PDF!**
+    
+
+
+
+This is the template for [assignment 5](assignment5.html). You can download the [qmd-file](https://avehtari.github.io/BDA_course_Aalto/assignments/template5.qmd) or copy the code from this rendered document after clicking on `</> Code` in the top right corner.
+
+**Please replace the instructions in this template by your own text, explaining what you are doing in each exercise.** 
+
+The following will set-up [`markmyassignment`](https://github.com/MansMeg/markmyassignment) to check your functions at the end of the notebook:
+ 
+```{r} 
+if(!require(markmyassignment)){
+    install.packages("markmyassignment")
+    library(markmyassignment)
+}
+assignment_path = paste("https://github.com/avehtari/BDA_course_Aalto/",
+"blob/master/assignments/tests/assignment5.yml", sep="")
+set_assignment(assignment_path)    
+```       
+
+The following installs and loads the `aaltobda` package:
+```{r}
+if(!require(aaltobda)){
+    install.packages("remotes")
+    remotes::install_github("avehtari/BDA_course_Aalto", subdir = "rpackage", upgrade="never")
+    library(aaltobda)
+}
+```
+The following installs and loads the [`latex2exp` package](https://github.com/stefano-meschiari/latex2exp), which allows us to use LaTeX in plots:
+```{r}
+if(!require(latex2exp)){
+    install.packages("latex2exp")
+    library(latex2exp)
+}
+```
+The following installs and loads the [`posterior` package](https://github.com/stan-dev/posterior) which imports the `rhat_basic()` function:
+```{r}
+if(!require(posterior)){
+    install.packages("posterior")
+    library(posterior)
+}
+```
+The following installs and loads the [`ggplot2` package](https://ggplot2.tidyverse.org/) and the [`bayesplot` package](https://mc-stan.org/bayesplot/index.html)
+```{r}
+if(!require(ggplot2)){
+    install.packages("ggplot2")
+    library(ggplot2)
+}
+if(!require(bayesplot)){
+    install.packages("bayesplot")
+    library(bayesplot)
+}
+```
+
+:::
+::::
+
+
+# Generalized linear model: Bioassay model with Metropolis algorithm
+
+## (a)
+
+
+Write your answers/code here!
+```{r}
+# Useful functions: runif, rnorm
+# bioassaylp, dmvnorm (from aaltobda)
+
+data("bioassay")
+# Start by implementing a function called `density_ratio` to
+# compute the density ratio function, $r$ in Eq. (11.1) in BDA3:
+density_ratio <- function(alpha_propose, alpha_previous, beta_propose, beta_previous, x, y, n){
+    # Do computation here, and return as below.
+    # Below are the correct return values for two different calls of this function:
+
+    # alpha_propose = 1.89, alpha_previous = 0.374,
+    # beta_propose = 24.76, beta_previous = 20.04,
+    # x = bioassay$x, y = bioassay$y, n = bioassay$n
+    #1.305179
+
+    # alpha_propose = 0.374, alpha_previous = 1.89,
+    # beta_propose = 20.04, beta_previous = 24.76,
+    # x = bioassay$x, y = bioassay$y, n = bioassay$n
+    #0.7661784
+    mu0 <- c(0, 10)
+    sigma0 <- matrix(c(2^2, 12, 12, 10^2), ncol=2)
+    
+    log_propose <- bioassaylp(alpha_propose, beta_propose, x=x, y=y, n=n) + dmvnorm(c(alpha_propose, beta_propose), mean=mu0, sigma=sigma0, log=TRUE)
+    log_previous <- bioassaylp(alpha_previous, beta_previous, x=x, y=y, n=n) + dmvnorm(c(alpha_previous, beta_previous), mean=mu0, sigma=sigma0, log=TRUE)
+    
+    ratio <- exp(log_propose - log_previous)
+    return(ratio)
+}
+#test samples
+density_ratio(1.89,0.374,24.76,20.04,bioassay$x,bioassay$y,bioassay$n)    
+density_ratio(0.374,1.89,20.04,24.76,bioassay$x,bioassay$y,bioassay$n) 
+# Then implement a function called `metropolis_bioassay()` which
+# implements the Metropolis algorithm using the `density_ratio()`:
+metropolis_bioassay <- function(alpha_initial, beta_initial, alpha_sigma, beta_sigma, no_draws, x, y, n){
+  
+    burn_in<-2500    
+    # Total number of iterations considering burn-in period
+    total_iter <- no_draws + burn_in
+    
+    # Initialize arrays to store our samples
+    chain_alpha <- numeric(total_iter)
+    chain_beta <- numeric(total_iter)
+    
+    chain_alpha[1] <- alpha_initial
+    chain_beta[1] <- beta_initial
+    
+    for(i in 2:total_iter){
+        # Propose new values from normal distribution
+        alpha_propose <- rnorm(1, mean=chain_alpha[i-1], sd=alpha_sigma)
+        beta_propose <- rnorm(1, mean=chain_beta[i-1], sd=beta_sigma)
+        
+        # Calculate the density ratio for the proposed values
+        r <- density_ratio(alpha_propose, chain_alpha[i-1], beta_propose, chain_beta[i-1], x, y, n)
+        
+        # Accept or reject the proposed values
+        if(runif(1) < min(1,r)){
+            chain_alpha[i] <- alpha_propose
+            chain_beta[i] <- beta_propose
+        } else {
+            chain_alpha[i] <- chain_alpha[i-1]
+            chain_beta[i] <- chain_beta[i-1]
+        }
+    }
+    
+    # Discard the burn-in samples
+    chain_alpha <- chain_alpha[-(1:burn_in)]
+    chain_beta <- chain_beta[-(1:burn_in)]
+    
+    # Return the samples in a data frame
+    return(data.frame(alpha=chain_alpha, beta=chain_beta))    
+}
+
+df = metropolis_bioassay(0, 0, 1, 5, 5000, bioassay$x, bioassay$y, bioassay$n)
+```
+
+
+
+## (b)
+1.The Metropolis algorithm is a Markov Chain Monte Carlo method used to obtain a series of random samples from probability distributions that are difficult to directly sample. The algorithm starts from an arbitrary initial value. In each step, the algorithm selects candidate values for the next sample value based on the proposed distribution. Then accept the candidate value with a probability related to the ratio of the value of the function on the candidate value to the current sample value. If the candidate value is rejected, the current sample is added to the sequence again. After a sufficiently long step, this process will roughly generate samples from the desired distribution.
+
+2.The proposal distribution: I used a normal distribution as the proposed distribution. Specifically, for α, I use the mean as the current α Normal distribution of values and setting the standard deviation to 1; about β, I use the mean as the current β Normal distribution of values and setting the standard deviation to 5. The reason for choosing this proposed distribution is that the normal distribution has properties that are easy to calculate and understand, and it is symmetric, which is a favorable feature in the Metropolis algorithm. In addition, by adjusting the standard deviation of the normal distribution, the acceptance rate of the algorithm can be easily controlled, thereby adjusting the proposed "jump" size. Before conducting the simulation, I tested several different standard deviations and ultimately chose the value that generated a reasonable acceptance rate.
+
+3.In the Metropolis algorithm, I choose 4 dispersed starting points  serves as the starting point of the Metropolis chain, which are (0,0),(0,10),(10,0),(10,20).
+
+4.To ensure approximate convergence of the algorithm, I choose 5000 as chain length.
+
+5.I choose 2500 as warm-up length.
+
+6.We generated 4 Metropolis chains and simulated 6 parameters. Through the output, we can see that there are four chains named "chain: 1", "chain: 2", "chain: 3", and "chain: 4".
+
+Have a look at [`bayesplot` trace plot examples](http://mc-stan.org/bayesplot/reference/MCMC-traces.html#examples) and tune your plot if wanted/needed. Don't forget to include a title/caption/description.
+
+**The below example plot only includes a single chain, but your report should include a plot with multiple chains overlayed!**
+```{r}
+library(bayesplot)
+library(ggplot2)
+chains_num <- 4
+iterations_per_chain <- 5000
+df1 = metropolis_bioassay(0, 0, 1, 5, iterations_per_chain, bioassay$x, bioassay$y, bioassay$n)
+df2 = metropolis_bioassay(0, 10, 1, 5, iterations_per_chain, bioassay$x, bioassay$y, bioassay$n)
+df3 = metropolis_bioassay(10, 0, 1, 5, iterations_per_chain, bioassay$x, bioassay$y, bioassay$n)
+df4 = metropolis_bioassay(10, 20, 1, 5, iterations_per_chain, bioassay$x, bioassay$y, bioassay$n)
+df1$Chain = 1
+df2$Chain = 2
+df3$Chain = 3
+df4$Chain = 4
+color_scheme_set("viridis")
+trace_plot = mcmc_trace(rbind(df1, df2, df3, df4), pars=c("alpha", "beta"), n_warmup=iterations_per_chain%/%2) +
+ggtitle("MCMC Trace for Alpha and Beta (Four Chains)")
+print(trace_plot)
+```
+
+
+
+## (c)
+1. basic idea of $\widehat{R}$ and how to to interpret the obtained $\widehat{R}$values:
+$\widehat{R}$is a statistic used for evaluating whether MCMC chains have converged. It compares the variance both between and within multiple chains to determine if all chains are sampling from the same distribution. Specifically, if each chain is sampling from the target distribution (that is, they have converged), the differences between these chains should merely be random noise. Thus, the essential idea of $\widehat{R}$is to compare the variance between chains with the variance within chains.
+When the $\widehat{R}$value is close to 1, it suggests that the variance between the chains is similar to the variance within the chains, indicating a sign that the MCMC chains have converged. Typically, if $\widehat{R}$is less than 1.1, we consider the chains to have converged.
+
+```{r}
+rhat_basic <- function(samples) {
+  m <- nrow(samples)  # number of chains
+  n <- ncol(samples)  # number of iterations per chain
+
+  # 1 & 2: Chain means
+  chain_means <- rowMeans(samples)
+  overall_mean <- mean(chain_means)
+
+  # 3 & 4: Within-chain variance W
+  W <- mean(apply(samples, 1, var))
+
+  # 5: Between-chain variance B
+  B <- (n / (m - 1)) * sum((chain_means - overall_mean)^2)
+
+  # 6: Target distribution variance estimate
+  var_theta <- ((n - 1) / n) * W + (1 / n) * B
+
+  # 7: Rhat
+  Rhat <- sqrt(var_theta / W)
+
+  return(Rhat)
+}
+
+# Combine the chains into a matrix (each row represents a chain)
+alpha_samples <- rbind(df1$alpha, df2$alpha, df3$alpha, df4$alpha)
+alpha_Rhat <- rhat_basic(alpha_samples)
+
+beta_samples <- rbind(df1$beta, df2$beta, df3$beta, df4$beta)
+beta_Rhat <- rhat_basic(beta_samples)
+
+list(alpha = alpha_Rhat, beta = beta_Rhat)
+```
+2.For my runs, the $\widehat{R}$ values for α and β were 1.0009 and 1.008 respectively. These values are very close to 1, indicating that I obtained a good $\widehat{R}$ on my first attempt. This means I didn't need to run more iterations or modify the proposal distribution. Such values suggest that my MCMC chains have converged and the chosen proposal distribution was appropriate.
+
+
+## (c)
+
+Have a look at [`bayesplot` scatter plot examples](https://mc-stan.org/bayesplot/reference/MCMC-scatterplots.html#examples) and tune your plot if wanted/needed. Don't forget to include a title/caption/description.
+```{r}
+# Useful functions: mcmc_scatter (from bayesplot)
+p2<-mcmc_scatter(df, pars=c("alpha", "beta"))
+p2 + stat_density_2d(color = "red")
+```
+
+
+
+:::: {.content-hidden when-format="pdf"}
+::: {.callout-warning collapse=false}
+
+## markmyassignment
+
+
+*This block will only be visible in your HTML output, but will be hidden when rendering to PDF with quarto for the submission.*
+**Make sure that this does not get displayed in the PDF!**
+    
+
+
+The following will check the functions for which `markmyassignment` has been set up:
+ 
+```{r}  
+mark_my_assignment()    
+```      
+
+:::
+::::
+
